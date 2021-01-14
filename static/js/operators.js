@@ -70,24 +70,6 @@ function fillOperatorsTable() {
     $.each(operatorsArray, function( index, op ) {
 		opsTable.row.add(getTableRow(op)).draw(false);
 	});
-  });
-
-  // Handle click on table cells with checkboxes
-  $('#devicesTable').on('click', 'tbody td, thead th:first-child', function(e) {
-	  $(this).parent().find('input[type="checkbox"]').trigger('click');
-  });
-
-  // Handle click on "Select all" control
-  $('#all').on('click', function(e){
-	if(this.checked){
-	  $('#devicesTable tbody input[type="checkbox"]:not(:checked)').trigger('click');
-	} else {
-	  $('#devicesTable tbody input[type="checkbox"]:checked').trigger('click');
-	}
-
-	// Prevent click event from propagating to parent
-	e.stopPropagation();
-  });
 }
 
 function createHelmoperator(){

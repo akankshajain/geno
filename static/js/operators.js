@@ -1,8 +1,10 @@
-$('#createOp').change(function(){
-    $('#textBoxContainer').empty();
-    var number = $(this).find('option:selected').attr('data-number');
-    alert("I am an alert box!");
+$(document).ready(function() {
+        listOperators();
 });
+
+function listOperators(){
+    console.log("list operatorssss")
+}
 
 function createHelmoperator(){
     console.log("in js")

@@ -18,6 +18,7 @@ def create_oper():
     data = request.get_json()
     return jsonify({'data': data})
 
+####################API Routes########################
 
 # List already created operators
 @app.route('/list_opers', methods = ['GET'])
@@ -26,16 +27,16 @@ def list_opers():
         return operators_dict()
 
 
-# A simple function to calculate the square of a number
-# the number to be squared is sent in the URL when we use GET
-# on the terminal type: curl http://127.0.0.1:5000 / home / 10
-# this returns 100 (square of 10)
+#Create operator out of helm chart
 @app.route('/helmoperator', methods = ['POST'])
 def createhelmoperator():
     content = request.json
     genoperator.helmoperator(content['helmrepo'],content['helmchartname'],content['operatorname'])  
     # return jsonify({'data': chart_name})
     return "Operator created!"
+
+
+####################Fron end Routes########################
 
 @app.route('/dashboard')
 def dashboard():
@@ -44,6 +45,14 @@ def dashboard():
 @app.route('/operators/create')
 def create_operator():
     return render_template('createOperator.html')
+
+@app.route('/operators')
+def list_operators():
+    return render_template('operators.html')
+
+@app.route('/secrets')
+def list_secrets():
+    return render_template('secrets.html')
 
 # Main invocation
 if __name__ == '__main__':

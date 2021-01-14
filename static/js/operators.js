@@ -3,7 +3,29 @@ $(document).ready(function() {
 });
 
 function listOperators(){
-    console.log("list operatorssss")
+  console.log("list operatorssss")
+  var requestBody="{}";
+	$.ajax({
+		type : 'GET',
+		url :  'http://9.30.199.16:5000/list_oper',
+		data : requestBody,
+		headers: {
+			'Content-Type':'application/json'
+		},
+		dataType : "json",
+		success : function(data) {
+			devices = data;
+			console.log(devices)
+			//filldevicesTable();
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+		    console.log(textStatus)
+		    console.log(jqXHR)
+		    console.log(errorThrown)
+			//displayConsoleMessages(jqXHR, textStatus, errorThrown);
+			//renderErrorMessage("There was some error fetching devices.");
+		}
+	});
 }
 
 function createHelmoperator(){

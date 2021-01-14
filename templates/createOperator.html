@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Create operator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="../static/js/createOp.js"></script>
+  <link rel="stylesheet" href="../static/css/style.css" type="text/css" />
+</head>
+<body>
+ <header>
+    <h1>Create operator</h1>
+  </header>
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="secrets.html">Secrets</a></li>
+        <li><a href="operators.html">Operators</a></li>
+    </ul>
+</div>
+ <ol class="breadcrumb">
+     <li><a href="index.html">Home</a></li>
+     <li><a href="operators.html">Operators</a></li>
+     <li class="current">Create</li>
+ </ol>
+<div class="title">
+    <label for="createOp">Create Operator:</label>
+
+    <select id="createOp">
+        <option value="volvo" data-number="1">Existing Helm chart</option>
+        <option value="saab" data-number="2">Build from scratch</option>
+        <option value="mercedes" data-number="3">Existing kubernetes emvironment</option>
+    </select>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">GO</button>
+
+    <!-- Modal HTML Markup -->
+    <form id="myModal" name="useradd" class="modal fade" role="dialog" method="post">
+        <div class="modal show" id="useradd_modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title text-center text-danger">Create helm operator</h4>
+                    </div><!-- /.modal-header -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="col-md-12 center-block text-left">
+                                <label class="control-label">Helm Chart Name:</label>
+                                <input class="form-control" id="chart_name" type="text" placeholder="Helm Chart Name" value="" name="chart_name" required="required" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 center-block text-left">
+                                <label class="control-label">Helm Repo:</label>
+                                <input class="form-control" id="chart_repo" type="text" placeholder="Helm Repo" value="" name="chart_repo" required="required"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 center-block text-left">
+                                <label class="control-label">Operator Name:</label>
+                                <input class="form-control" id="op_name" type="text" placeholder="Operator Name" value="" name="op_name" required="required"/>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-body -->
+                    <div class="modal-footer">
+                        <input class="btn btn-md btn-danger" data-dismiss="modal" type="button" onclick="createHelmoperator()" value="Create"/>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div><!-- /.modal-footer -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </form>
+
+</div>
+</body>
+</html>
+

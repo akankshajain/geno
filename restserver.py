@@ -27,7 +27,7 @@ def list_opers():
         return operators_dict()
 
 
-#Create operator out of helm chart
+#Create helm operator out of helm chart
 @app.route('/helmoperator', methods = ['POST'])
 def createhelmoperator():
     content = request.json
@@ -35,6 +35,14 @@ def createhelmoperator():
     # return jsonify({'data': chart_name})
     return "Operator created!"
 
+#Create ansible operator out of the k8s resources in a namespace
+@app.route('/ansibleoperator', methods = ['POST'])
+def createansibleoperatorfromk8s():
+    content = request.json
+    
+    genoperator.ansibleoperatorfromk8s(content['groupname'],content['domainname'],content['operatorname'],content['version'],content['kind'],content['resourcenames'],content['namespace'])  
+    # return jsonify({'data': chart_name})
+    return "Operator created!"
 
 ####################Fron end Routes########################
 

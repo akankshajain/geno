@@ -1,3 +1,22 @@
+$(document).ready(function() {
+    $('#createOperator').click(function   (event) {
+        var e = document.getElementById("createOp");
+        var strUser = e.value;
+        if(e.value == "helm"){
+            $("#createHelmModal").modal('show');
+        }
+        else{
+            if(e.value == "existing"){
+                $("#createExistModal").modal('show');
+            }
+            else{
+                alert(strUser)
+            }
+
+        }
+    });
+});
+
 function createHelmoperator(){
     console.log("in js")
     $('#loadingmessage').show();

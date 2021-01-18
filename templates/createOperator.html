@@ -34,15 +34,19 @@
     <label for="createOp">Create Operator:</label>
 
     <select id="createOp">
-        <option value="volvo" data-number="1">Existing Helm chart</option>
-        <option value="saab" data-number="2">Build from scratch</option>
-        <option value="mercedes" data-number="3">Existing kubernetes emvironment</option>
+        <option value="helm">Existing Helm chart</option>
+        <option value="existing">Existing kubernetes environment</option>
+        <option value="scratch">Build from scratch</option>
     </select>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">GO</button>
+    <button type="button" id="createOperator" class="btn btn-primary">GO</button>
+
+    <div id='loadingmessage' style='display:none'>
+        <img src='../static/images/loader.gif'/>
+    </div>
 
     <!-- Modal HTML Markup -->
-    <form id="myModal" name="useradd" class="modal fade" role="dialog" method="post">
-        <div class="modal show" id="useradd_modal">
+    <form id="createHelmModal" name="createHelm" class="modal fade" role="dialog" method="post">
+        <div class="modal show" id="helm_modal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -58,8 +62,12 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-12 center-block text-left">
-                                <label class="control-label">Helm Repo:</label>
-                                <input class="form-control" id="chart_repo" type="text" placeholder="Helm Repo" value="" name="chart_repo" required="required"/>
+                                <label class="control-label">Deployment:</label>
+                                <select id="deployment">
+                                    <option value="Postgres">Postgres</option>
+                                    <option value="LAMP">LAMP stack</option>
+                                    <option value="Db2wh">Db2wh</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -70,9 +78,44 @@
                         </div>
                     </div><!-- /.modal-body -->
                     <div class="modal-footer">
-                        <div id='loadingmessage' style='display:none'>
-                            <img src='../static/images/loader.gif'/>
+                        <input class="btn btn-md btn-danger" data-dismiss="modal" type="button" onclick="createHelmoperator()" value="Create"/>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div><!-- /.modal-footer -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </form>
+
+
+    <form id="createExistModal" name="createExist" class="modal fade" role="dialog" method="post">
+        <div class="modal show" id="exist_modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title text-center text-danger">Create operator from existing environment</h4>
+                    </div><!-- /.modal-header -->
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="col-md-12 center-block text-left">
+                                <label class="control-label">Kubeconfig:</label>
+                                <input class="form-control" id="kubeconfig" type="text" placeholder="Kubeconfig" value="" name="chart_name" required="required" />
+                            </div>
                         </div>
+                        <div class="form-group">
+                            <div class="col-md-12 center-block text-left">
+                                <label class="control-label">Helm Repo:</label>
+                                <input class="form-control" id="chart_repo" type="text" placeholder="Helm Repo" value="" name="chart_repo" required="required"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12 center-block text-left">
+                                <label class="control-label">Operator Name:</label>
+                                <input class="form-control" id="operator_name" type="text" placeholder="Operator Name" value="" name="op_name" required="required"/>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-body -->
+                    <div class="modal-footer">
                         <input class="btn btn-md btn-danger" data-dismiss="modal" type="button" onclick="createHelmoperator()" value="Create"/>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div><!-- /.modal-footer -->

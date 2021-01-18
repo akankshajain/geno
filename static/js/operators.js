@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    var allkinds = [];
     $('#createOperator').click(function   (event) {
         var e = document.getElementById("createOp");
         var strUser = e.value;
@@ -8,6 +9,11 @@ $(document).ready(function() {
         else{
             if(e.value == "existing"){
                 $("#createExistModal").modal('show');
+                $('#createkind').click(function   (event) {
+                    var op_name = $("#operator_name").val();
+                    console.log(op_name);
+                    $('#bar').append('&nbsp;&nbsp;<button class="btn-styled" type="button">' + op_name + '</button>');
+                }); //---createkind click over----
             }
             else{
                 alert(strUser)
@@ -50,4 +56,5 @@ function createHelmoperator(){
 	});
 
 }
+
 

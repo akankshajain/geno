@@ -12,15 +12,17 @@ function listOperators(){
 			'Content-Type':'application/json'
 		},
 		dataType : "json",
-		success : function(response
+		success : function(response){
 			operators = response.operators;
 			var trHTML = '';
         $.each(operators, function (i, item) {
                trHTML += '<tr><td><input name=\"\" value=\"\" type=\"checkbox\"></td><td>' + item.oper_name +
                 '</td><td>' + item.oper_path + '</td><td>' + item.oper_source + '</td><td>' + item.create_time +
-                '</td><td><a href="#"><span class=\"glyphicon glyphicon-download-alt\"></span>&ensp;<span class=\"glyphicon glyphicon-edit\"></span></td></tr>';
+                '</td><td><a href="#"><span class=\"glyphicon glyphicon-edit\"></span>&ensp;' +
+                '<span class=\"glyphicon glyphicon-download-alt\"></span>&ensp;<span class=\"glyphicon glyphicon-cloud-upload\">' +
+                '</span></td></tr>';
         });
-        $('#opsTable').append(trHTML);
+               $('#opsTable').append(trHTML);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 		    console.log(textStatus)

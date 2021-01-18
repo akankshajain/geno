@@ -62,12 +62,8 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-12 center-block text-left">
-                                <label class="control-label">Deployment:</label>
-                                <select id="deployment">
-                                    <option value="Postgres">Postgres</option>
-                                    <option value="LAMP">LAMP stack</option>
-                                    <option value="Db2wh">Db2wh</option>
-                                </select>
+                                <label class="control-label">Helm Repo:</label>
+                                <input class="form-control" id="chart_repo" type="text" placeholder="Helm Repo" value="" name="chart_repo" required="required"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -104,8 +100,12 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-12 center-block text-left">
-                                <label class="control-label">Helm Repo:</label>
-                                <input class="form-control" id="chart_repo" type="text" placeholder="Helm Repo" value="" name="chart_repo" required="required"/>
+                                <label class="control-label">Deployment:</label>
+                                <select id="deployment">
+                                    <option value="Postgres">Postgres</option>
+                                    <option value="LAMP">LAMP stack</option>
+                                    <option value="Db2wh">Db2wh</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">

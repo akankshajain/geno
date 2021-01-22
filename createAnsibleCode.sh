@@ -3,15 +3,14 @@
 resourceType=$1
 rolename=$2
 operatorDirectory=$3
-resourceArray=$(kubectl get ${resourceType} --output=name)
- 
+IFS=$'\n';
+resourceArray=( $(kubectl get ${resourceType} --output=name) )
+echo "Creating code for ${#resourceArray[@]} ${resourceType}"
 for i in "${resourceArray[@]}"
 do
    echo "$i"
-   kubectl-neat get ${i} > temp.yml
+   kubectl-neat get "$i" -o yaml > temp.yml
    yq eval '.metadata.namespace = "{{ ansible_operator_meta.namespace }}"' -i temp.yml
-   yq eval '[{"name":"Create ${i}","k8s": {"definition": .}}]' temp.yml >> ${operatorDirectory}/roles/${rolename}/tasks/main.yml
-
+   yq eval '[{"name":"Create '$i'","k8s": {"definition": .}}]' temp.yml >> ${operatorDirectory}/roles/${rolename}/tasks/main.yml
+   rm -rf temp.yml
 done
-
-rm temp.yml

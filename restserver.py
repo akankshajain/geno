@@ -43,6 +43,15 @@ def createansibleoperatorfromk8s():
     genoperator.ansibleoperatorfromk8s(content['groupname'],content['domainname'],content['operatorname'],content['version'],content['kinds'],content['namespace'])  
     # return jsonify({'data': chart_name})
     return "Operator created!"
+    
+#Create ansible operator from scratch
+@app.route('/ansibleoperatorscratch', methods = ['POST'])
+def createansibleoperatorfromscratch():
+    content = request.json
+
+    genoperator.ansibleoperatorfromscratch(content['groupname'],content['domainname'],content['operatorname'],content['version'],content['kinds'])
+    # return jsonify({'data': chart_name})
+    return "Operator created!"
 
 ####################Fron end Routes########################
 

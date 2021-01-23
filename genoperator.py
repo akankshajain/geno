@@ -43,7 +43,7 @@ def ansibleoperatorfromk8s(groupname, domainname, operatorname, version, kinds, 
         f.write(operatorname+",from kubernetes,"+date_time+","+operatorDirectory+"\n")
     return
 
-def ansibleoperatorfromscratch(groupname, domainname, operatorname, version, kinds, namespace):
+def ansibleoperatorfromscratch(groupname, domainname, operatorname, version, kinds):
 
     operatorDirectory="/root/operators/"+operatorname
 
@@ -51,22 +51,48 @@ def ansibleoperatorfromscratch(groupname, domainname, operatorname, version, kin
     print("output %s" % result)
     result = subprocess.run(["operator-sdk", "init", "--plugins=ansible", "--domain", domainname], cwd=operatorDirectory, stdout=subprocess.PIPE)
     print("output %s" % result)
-    
+
     #Create each kind given in "kinds" list
     for kind in kinds:
         print(kind)
         result = subprocess.run(["operator-sdk", "create","api","--group",groupname,"--version",version, "--kind", kind['name'].capitalize(),"--generate-role"], cwd=operatorDirectory, stdout=subprocess.PIPE)
         print("output %s" % result)
-        
-        
-    
+
+        path=operatorDirectory+"/roles/"+kind['name'].lower()+"/tasks/main.yml"
+        for resource in kind['resourcenames']:
+            resourcetype=resource["type"]
+            if "Deployment" == resourcetype:
+                deployment(resource,path)
+            elif "Service" == resourcetype:
+                service(resource,path)
+            elif "Route" == resourcetype:
+                route(resource,path)
+
     ct = datetime.datetime.now()
     date_time = ct.strftime("%m/%d/%Y %H:%M:%S")
     with open('database/operators.csv', 'a') as f:
         f.write(operatorname+",from scratch,"+date_time+","+operatorDirectory+"\n")
     return
 
+def deployment(deploymentresource,path):
+    with open('./k8s_templates/deployment_template.yaml') as file:
+        document = yaml.safe_load(file)
+    for item in document:
+        #print(item)
+        labelslist= [x.strip() for x in deploymentresource["label"].split(':')]
+        container={"name":deploymentresource["name"],"image":deploymentresource["image"] ,"ports":[{"containerPort":deploymentresource["port"]}]}
+        item["k8s"]["definition"]["metadata"]["name"]=deploymentresource["name"]
+        item["k8s"]["definition"]["spec"]["replicas"]=deploymentresource["replicas"]
+        item["k8s"]["definition"]["spec"]["selector"]["matchLabels"][labelslist[0]]=labelslist[1]
+        item["k8s"]["definition"]["spec"]["template"]["metadata"]["labels"][labelslist[0]]=labelslist[1]
+        item["k8s"]["definition"]["spec"]["template"]["spec"]["containers"].append(container)
 
-        #Sort the resources in the order their code should be created
-        #orderOfResources = [ "Secret","ConfigMap", "PersistentVolumeClaim", "Service","Pod","Deployment",  "StatefulSet", "Job", "Cronjob", "Route","NetworkPolicy"]
-        #orderOfCreation = sorted(kind.resourcenames, key=lambda x: orderOfResources.index(x))
+    with open(path, 'a') as f:
+        yaml.dump(document, f)
+    return 0
+
+def service(serviceresource,path):
+    return 0
+def route(routeresource,path):
+    return 0
+

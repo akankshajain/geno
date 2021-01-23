@@ -11,4 +11,3 @@ kubectl-neat get "$resource" -o yaml > temp.yml
 yq eval '.metadata.namespace = "{{ ansible_operator_meta.namespace }}"' -i temp.yml
 yq eval '[{"name":"Create '$resource'","k8s": {"definition": .}}]' temp.yml >> ${operatorDirectory}/roles/${rolename}/tasks/main.yml
 rm -rf temp.yml
-

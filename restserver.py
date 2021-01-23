@@ -10,13 +10,13 @@ app = Flask(__name__)
 # on the terminal type: curl http://127.0.0.1:5000/
 # returns hello world when we use GET.
 # returns the data that we send when we use POST.
-@app.route('/', methods = ['GET', 'POST'])
-def create_oper():
-    if(request.method == 'GET'):
+#@app.route('/', methods = ['GET', 'POST'])
+#def create_oper():
+#    if(request.method == 'GET'):
 
-        data = "hello world"
-    data = request.get_json()
-    return jsonify({'data': data})
+        #data = "hello world"
+    #data = request.get_json()
+    #return jsonify({'data': data})
 
 ####################API Routes########################
 
@@ -53,9 +53,9 @@ def createansibleoperatorfromscratch():
     # return jsonify({'data': chart_name})
     return "Operator created!"
 
-####################Fron end Routes########################
+####################Front end Routes########################
 
-@app.route('/dashboard')
+@app.route('/')
 def dashboard():
     return render_template('index.html')
 
@@ -70,6 +70,10 @@ def list_operators():
 @app.route('/secrets')
 def list_secrets():
     return render_template('secrets.html')
+
+@app.route('/operators/scratch')
+def create_operator_scratch():
+    return render_template('createOperatorScratch.html')
 
 # Main invocation
 if __name__ == '__main__':

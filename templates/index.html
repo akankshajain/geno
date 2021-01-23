@@ -15,9 +15,9 @@
   </header>
 <div class="container">
   <ul class="nav nav-tabs">
-    <li class="active"><a href="#">Home</a></li>
-    <li><a href="secrets.html">Secrets</a></li>
-    <li><a href="operators.html">Operators</a></li>
+      <li><a href={{ url_for('dashboard') }}>Home</a></li>
+      <li><a href={{ url_for('list_secrets') }}>Secrets</a></li>
+      <li><a href={{ url_for('list_operators') }}>Operators</a></li>
   </ul>
 </div>
 <div class="title">

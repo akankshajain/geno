@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    var allkinds = [];
     var Secret = {}
     var ConfigMap = {}
     var PersistentVolumeClaim = {}
@@ -13,6 +12,8 @@ $(document).ready(function() {
     var NetworkPolicy = {}
     var KindObj = [];
     var OperatorsObj = {};
+    var resourcenames = []
+    var kinds = []
 
 
     $("#full_kind").keyup(function () {
@@ -38,51 +39,16 @@ $(document).ready(function() {
         }
     });
 
-    function cleanArrays() {
-        Secret = {}
-        ConfigMap = {}
-        PersistentVolumeClaim = {}
-        Service = {}
-        Pod = {}
-        Deployment = {}
-        StatefulSet = {}
-        Job = {}
-        Cronjob = {}
-        Route = {}
-        NetworkPolicy = {}
-    }
 
     $('#full_createkind').click(function   (event) {
         var kindVal = $('#full_kind').val();
-        var currentKind = {};
-
-        if(Secret != {})
-            currentKind[kindVal] = {...currentKind[kindVal],Secret}
-        if(ConfigMap != {})
-            currentKind[kindVal] = {...currentKind[kindVal],ConfigMap}
-        if(PersistentVolumeClaim != {})
-            currentKind[kindVal] = {...currentKind[kindVal],PersistentVolumeClaim}
-        if(Service != {})
-            currentKind[kindVal] = {...currentKind[kindVal],Service}
-        if(Pod != {})
-            currentKind[kindVal] = {...currentKind[kindVal],Pod}
-        if(Deployment != {})
-            currentKind[kindVal] = {...currentKind[kindVal],Deployment}
-        if(StatefulSet != {})
-            currentKind[kindVal] = {...currentKind[kindVal],StatefulSet}
-        if(Job != {})
-            currentKind[kindVal] = {...currentKind[kindVal],Job}
-        if(Cronjob != {})
-            currentKind[kindVal] = {...currentKind[kindVal],Cronjob}
-        if(Route != {})
-            currentKind[kindVal] = {...currentKind[kindVal],Route}
-        if(NetworkPolicy != {})
-            currentKind[kindVal] = {...currentKind[kindVal],NetworkPolicy}
-
-        cleanArrays();
+        var kind = {
+            name: kindVal,
+            "resourcenames": resourcenames
+        }
+        kinds.push(kind)
         $('#full_bar').append('&nbsp;&nbsp;<button class="btn-styled" type="button">' + kindVal + '</button>');
-        KindObj.push(currentKind);
-        console.log(KindObj);
+
     });
 
     $('#full_createop').click(function   (event) {
@@ -91,21 +57,55 @@ $(document).ready(function() {
         var version = $('#full_vname').val();
         var operatorName = $('#full_operator_name').val();
 
-        var currentOp = {
-            Group: grpName,
-            Domain: domainName,
-            Version: version,
-            Operator: operatorName,
-            Kinds: KindObj
-        };
-        KindObj = [];
-        OperatorsObj = currentOp;
-        console.log(OperatorsObj);
+        var requestBody = "{\"groupname\" : \"" + grpName +
+                          "\",\"domainname\" : \"" + domainName +
+                          "\",\"operatorname\" : \"" + operatorName +
+                          "\",\"version\" : \"" + version +
+                          "\" ,\"kinds\" :" +  JSON.stringify(kinds) + "}";
+        console.log(requestBody)
+
     });
 
+    // display modal
     $('#full_addResource').click(function   (event) {
         var resource = $('#full_resourceType').val();
         $("#"+resource+"").modal("show");
+    });
+
+    // process add resource button and create
+    $('#dep_add').click(function   (event) {
+        Deployment = {
+            type: "Deployment",
+            name : $('#dname').val(),
+            port : $('#port').val(),
+            image : $('#image').val(),
+            label : $('#label').val(),
+            replicas: $('#replica').val()
+
+        }
+        resourcenames.push(Deployment);
+    });
+
+    $('#service_add').click(function   (event) {
+        Service = {
+            type: "Service",
+            name : $('#sname').val(),
+            sourceport : $('#sport').val(),
+            targetport : $('#tport').val(),
+            podselectorlabel : $('#label').val()
+
+        }
+        resourcenames.push(Service);
+    });
+
+    $('#route_add').click(function   (event) {
+        Route = {
+            type: "Route",
+            name : $('#rname').val(),
+            servicename : $('#servicename').val(),
+            targetport : $('#targetport').val()
+        }
+        resourcenames.push(Route);
     });
 
     $('#Secret_Add').click(function   (event) {

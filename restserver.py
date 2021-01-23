@@ -40,7 +40,7 @@ def createhelmoperator():
 def createansibleoperatorfromk8s():
     content = request.json
     
-    genoperator.ansibleoperatorfromk8s(content['groupname'],content['domainname'],content['operatorname'],content['version'],content['kind'],content['resourcenames'],content['namespace'])  
+    genoperator.ansibleoperatorfromk8s(content['groupname'],content['domainname'],content['operatorname'],content['version'],content['kinds'],content['namespace'])  
     # return jsonify({'data': chart_name})
     return "Operator created!"
 

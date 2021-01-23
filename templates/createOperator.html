@@ -25,7 +25,7 @@
  <ol class="breadcrumb">
      <li><a href={{ url_for('dashboard') }}>Home</a></li>
      <li><a href={{ url_for('list_operators') }}>Operators</a></li>
-     <li class="current">Create</li>
+     <li class="current">Create Operator</li>
  </ol>
  <br>
  <br>
@@ -94,8 +94,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <div class="col-md-12 center-block text-left">
-                                <label class="control-label">Kubeconfig:</label>
-                                <input class="form-control" id="kubeconfig" type="text" placeholder="Kubeconfig" value="" name="kubeconfig" required="required" />
+                                <label class="control-label">Namespace:</label>
+                                <input class="form-control" id="ns" type="text" placeholder="Namespace" value="" name="ns" required="required" />
                                 <label class="control-label">Group Name:</label>
                                 <input class="form-control" id="gname" type="text" placeholder="Group Name" value="" name="group_name" required="required" />
                                 <label class="control-label">Domain Name:</label>
@@ -104,22 +104,25 @@
                                 <input class="form-control" id="vname" type="text" placeholder="Version" value="" name="version" required="required" />
                                 <label class="control-label">Operator Name:</label>
                                 <input class="form-control" id="operator_name" type="text" placeholder="Operator Name" value="" name="op_name" required="required"/>
+                                <hr>
+                                <label class="control-label">Kind:</label>
+                                <input class="form-control" id="kind" type="text" placeholder="Kind" value="" name="kind" required="required"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-md-12 center-block text-left">
                                 <label class="control-label">Deployment:</label>
-                                <select id="drop1">
+                                <select id="deployment">
                                     <option value="dep">--DEPLOYMENT--</option>
-                                    <option value="dep1">deployment.extensions/test</option>
-                                    <option value="dep2">deployment.extensions/wordpress-mysql</option>
+                                    <option value="dep1">deployment.extensions/zookeeper-server</option>
+                                    <option value="dep2">deployment.extensions/kafka-server</option>
                                 </select>
-                                <select id="drop2">
+                                <select id="service">
                                     <option value="service">--SERVICE--</option>
-                                    <option value="service1">service/example</option>
-                                    <option value="service2">service/wordpress-mysql</option>
+                                    <option value="service1">service/zookeeper</option>
+                                    <option value="service2">service/kafka</option>
                                 </select>
-                                <select id="drop3">
+                                <select id="route">
                                     <option value="--ROUTES--">--ROUTES--"</option>
                                     <option value="dep1">route.route.openshift.io/example</option>
                                 </select>
@@ -132,7 +135,8 @@
 
                     </div><!-- /.modal-body -->
                     <div class="modal-footer">
-                        <input class="btn btn-md btn-danger" data-dismiss="modal" type="button" onclick="createExistOperator()" value="Create"/>
+                        <button type="button" id="createOpex" class="btn btn-md btn-danger">Create Operator</button>
+                        <!--<input class="btn btn-md btn-danger" data-dismiss="modal" type="button" onclick="createExistOperator()" value="Create"/>-->
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div><!-- /.modal-footer -->
                 </div><!-- /.modal-content -->

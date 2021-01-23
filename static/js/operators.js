@@ -1,30 +1,64 @@
 $(document).ready(function() {
     var allkinds = [];
     $('#createOperator').click(function   (event) {
-        var e = document.getElementById("createOp");
-        var strUser = e.value;
-        if(e.value == "helm"){
+        var optype = document.getElementById("createOp");
+        if(optype.value == "helm"){
             $("#createHelmModal").modal('show');
         }
         else{
-            if(e.value == "existing"){
+            // Open page for create an operator from an existing k8s environment
+            if(optype.value == "existing"){
                 $("#createExistModal").modal('show');
+                var kindsArray = []
                 $('#createkind').click(function   (event) {
-                    var op_name = $("#operator_name").val();
-                    console.log(op_name);
-                    $('#bar').append('&nbsp;&nbsp;<button class="btn-styled" type="button">' + op_name + '</button>');
+                    var kindict = {}
+                    resourcearay = []
+                    var kind = $("#kind").val();
+                    var dep = document.getElementById("deployment");
+                    var selectionDeployment = dep.options[dep.selectedIndex].text;
+                    var ser = document.getElementById("service");
+                    var selectionService = ser.options[ser.selectedIndex].text;
+                    resourcearay.push(selectionDeployment, selectionService)
+                    kindict = {
+                        "name": kind,
+                        "resourcenames": resourcearay
+                    }
+                    kindsArray.push(kindict)
+                    $('#bar').append('&nbsp;&nbsp;<button class="btn-styled" type="button">' + kind + '</button>');
                 }); //---createkind click over----
-            }
-            else{
-                alert(strUser)
-            }
 
+                // create final operator
+                $('#createOpex').click(function   (event) {
+                    createExistOperator(kindsArray);
+                     }); //---createOpex click over----
+                }
+            else{
+                // Open page for create an operator from scratch
+                location.href = 'scratch';
+            }
         }
     });
 });
 
+
+function createExistOperator(kindsArray){
+    console.log(JSON.stringify(kindsArray));
+    var gname = document.getElementById("gname");
+    var dname = document.getElementById("dname");
+    var vname = document.getElementById("vname");
+    var ns = document.getElementById("ns");
+    var operator_name = document.getElementById("operator_name");
+    var requestBody = "{\"groupname\" : \"" + gname.value +
+                      "\",\"domainname\" : \"" + dname.value +
+                      "\",\"operatorname\" : \"" + operator_name.value +
+                      "\",\"version\" : \"" + vname.value +
+                      "\",\"namespace\" : \"" + ns.value +
+                      "\" ,\"kinds\" :" +  JSON.stringify(kindsArray) + "}";
+    console.log(requestBody);
+}
+
+
 function createHelmoperator(){
-    console.log("in js")
     $('#loadingmessage').show();
     var chart_name = $("#chart_name").val();
     var chart_repo = $("#chart_repo").val();
@@ -42,7 +76,6 @@ function createHelmoperator(){
 		dataType : "json",
 		success : function(data) {
 		    $('#loadingmessage').hide();
-		    console.log("yeyyyy")
 	        renderSuccessMessage(" Operator added successfully at /root/operators/" + op_name);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {

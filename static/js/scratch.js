@@ -10,8 +10,6 @@ $(document).ready(function() {
     var Cronjob = {}
     var Route = {}
     var NetworkPolicy = {}
-    var KindObj = [];
-    var OperatorsObj = {};
     var resourcenames = []
     var kinds = []
 

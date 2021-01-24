@@ -40,6 +40,7 @@
     <li><a href=href="{{url_for('dashboard') }}>Home</a></li>
     <li class="current">Operators</li>
 </ol>
+<div class="col-lg-12" id="message_div"></div>
 <div class="left">
 	<input type="search" name="srch" id="srch" text="Search" style="position:absolute">
 </div>
@@ -64,5 +65,31 @@
 	</div>
 	<a href={{ url_for('create_operator') }}><button type="button">Create operator</button></a>
 </div>
+
+<!-- Modal HTML Markup -->
+<form id="downloadModal" name="downloadModal" class="modal fade" role="dialog" method="post">
+	<div class="modal show" id="helm_modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+					<h4 class="modal-title text-center text-danger">Download operator</h4>
+				</div><!-- /.modal-header -->
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="col-md-12 center-block text-left">
+							<label class="control-label">Local Path:</label>
+							<input class="form-control" id="dpath" type="text" placeholder="Local directory to download" value="" name="chart_name" required="required" />
+						</div>
+					</div>
+				</div><!-- /.modal-body -->
+				<div class="modal-footer">
+					<input class="btn btn-md btn-danger" id="downloadbutton" data-dismiss="modal" type="button" value="Download"/>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div><!-- /.modal-footer -->
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</form>
 </body>
 </html>

@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 @app.route('/download', methods = ['POST'])
 def create_oper():
+    #curl -i -H "Content-Type: application/json" -X POST -d '{"operator":"nodered-operator-demo","path":"/c/dashdbrepos"}' http://localhost:5000/download
     data = request.get_json()
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())

@@ -15,6 +15,18 @@ function renderSuccessMessage(message){
 
 }
 
+//Render flash message on successful completion of a request
+function renderSuccessMessage2(message){
+	$('#message_div2').removeClass("alert-success alert-danger alert-info");
+	$('#message_div2').addClass("alert alert-success");
+	$('#message_div2').html("<a href=\"#\" class=\"close\" aria-label=\"close\">&times;</a><strong>Success. </strong>" + message);
+	$('#message_div2').show();
+	$('#message_div2 .close').click(function() {
+		$(this).parent().hide();
+	});
+
+}
+
 //Render flash message on unsuccessful completion of a request
 function renderErrorMessage(message){
 	$('#message_div').removeClass("alert-success alert-danger alert-info");

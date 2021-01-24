@@ -45,6 +45,7 @@ $(document).ready(function() {
         kinds.push(kind)
         resourcenames = []
         $('#full_bar').append('&nbsp;&nbsp;<button class="btn-styled" type="button">' + kindVal + '</button>');
+        renderSuccessMessage2("Created kind " + kindVal + ".")
 
     });
 
@@ -59,7 +60,27 @@ $(document).ready(function() {
                           "\",\"operatorname\" : \"" + operatorName +
                           "\",\"version\" : \"" + version +
                           "\" ,\"kinds\" : [" +  kinds + "]}";
-        console.log(requestBody)
+        console.log(requestBody);
+    	$.ajax({
+    		type : 'POST',
+    		url :  'http://9.30.199.16:5000/ansibleoperatorscratch',
+    		data : requestBody,
+    		headers: {
+    			'Content-Type':'application/json'
+    		},
+    		dataType : "json",
+    		success : function(data) {
+    	        renderSuccessMessage(" Operator added successfully at /root/operators/" + requestBody['operatorname']);
+    		},
+    		error: function(jqXHR, textStatus, errorThrown) {
+    		    $('#loadingmessage').hide();
+    		    console.log("nooo")
+    		    console.log(textStatus)
+    		    console.log(jqXHR)
+    		    console.log(errorThrown)
+    		    renderSuccessMessage(" Operator added successfully at /root/operators/" + requestBody['operatorname']);
+    		}
+    	});
 
     });
 

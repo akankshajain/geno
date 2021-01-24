@@ -99,7 +99,7 @@ def deployment(deploymentresource, path):
         item["k8s"]["definition"]["spec"]["template"]["spec"]["containers"].append(container)
 
     with open(path, 'a') as f:
-        yaml.dump(document, f)
+        yaml.safe_dump(document, f, default_style=None,default_flow_style=False)
     return 0
 
 
@@ -116,7 +116,7 @@ def service(serviceresource, path, operatorDirectory):
     with open(path, 'a') as f:
         yaml.dump(document, f)
         
-    addrbacpermissions("services")
+    addrbacpermissions("services", operatorDirectory)
     
     return 0
 
@@ -134,11 +134,11 @@ def route(routeresource, path, operatorDirectory):
     with open(path, 'a') as f:
         yaml.dump(document, f)
 
-    addrbacpermissions("routes")
+    addrbacpermissions("routes", operatorDirectory)
       
     return 0
 
-def addrbacpermissions(resourcetype):
+def addrbacpermissions(resourcetype, operatorDirectory):
 
     ## Add the rbac permissions in config/rbac/
     

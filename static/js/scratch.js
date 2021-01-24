@@ -45,8 +45,6 @@ $(document).ready(function() {
         kinds.push(kind)
         resourcenames = []
         $('#full_bar').append('&nbsp;&nbsp;<button class="btn-styled" type="button">' + kindVal + '</button>');
-        renderSuccessMessage2("Created kind " + kindVal + ".")
-
     });
 
     $('#full_createop').click(function   (event) {
@@ -102,6 +100,7 @@ $(document).ready(function() {
 
         });
         resourcenames.push(Deployment);
+        renderSuccessMessage2("Added deployment resource to kind.")
     });
 
     $('#service_add').click(function   (event) {
@@ -114,6 +113,7 @@ $(document).ready(function() {
 
         });
         resourcenames.push(Service);
+        renderSuccessMessage2("Added Service resource to kind.")
     });
 
     $('#route_add').click(function   (event) {
@@ -124,6 +124,7 @@ $(document).ready(function() {
             targetport : parseFloat($('#targetport').val())
         });
         resourcenames.push(Route);
+        renderSuccessMessage2("Added Route resource to kind.")
     });
 
     $('#Secret_Add').click(function   (event) {

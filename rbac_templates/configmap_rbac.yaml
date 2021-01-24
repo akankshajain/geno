@@ -1,8 +1,8 @@
-- apiGroups:
+apiGroups:
   - ""
-  resources:
+resources:
   - configmaps
-  verbs:
+verbs:
   - create
   - delete
   - get

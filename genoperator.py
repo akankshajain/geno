@@ -1,6 +1,6 @@
 import datetime;
 import subprocess;
-
+import yaml;
 
 def helmoperator(helmrepo, helmchart, operatorname):
     result = subprocess.run(["helm", "repo", "add", "bitnami", helmrepo], stdout=subprocess.PIPE)
@@ -89,6 +89,7 @@ def deployment(deploymentresource, path):
     for item in document:
         # print(item)
         labelslist = [x.strip() for x in deploymentresource["label"].split(':')]
+        print(labelslist)
         container = {"name": deploymentresource["name"], "image": deploymentresource["image"],
                      "ports": [{"containerPort": deploymentresource["port"]}]}
         item["k8s"]["definition"]["metadata"]["name"] = deploymentresource["name"]
@@ -107,10 +108,10 @@ def service(serviceresource, path, operatorDirectory):
         document = yaml.safe_load(file)
     for item in document:
         appselector = [x.strip() for x in serviceresource["podselectorlabel"].split(':')]
+        ports={"protocol": "TCP", "port":serviceresource["sourceport"],"targetPort":serviceresource["targetport"]}
         item["k8s"]["definition"]["metadata"]["name"] = serviceresource["name"]
         item["k8s"]["definition"]["spec"]["selector"][appselector[0]] = appselector[1]
-        item["k8s"]["definition"]["spec"]["ports"]["port"] = serviceresource["sourceport"]
-        item["k8s"]["definition"]["spec"]["ports"]["targetPort"] = serviceresource["targetport"]
+        item["k8s"]["definition"]["spec"]["ports"].append(ports)
 
     with open(path, 'a') as f:
         yaml.dump(document, f)
@@ -147,8 +148,8 @@ def route(routeresource, path, operatorDirectory):
         with open('./rbac_templates/route_rbac.yaml') as filetemplate:
             documenttemplate = yaml.safe_load(filetemplate)
         documentroles["rules"].append(documenttemplate)
-        with open(path, 'w') as fileroleswrite:
-        yaml.dump(documentroles, fileroleswrite)
+        with open(operatorDirectory+'/config/rbac/role.yaml', 'w') as fileroleswrite:
+            yaml.dump(documentroles, fileroleswrite)
         
     return 0
 

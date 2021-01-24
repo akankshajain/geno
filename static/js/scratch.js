@@ -82,6 +82,9 @@ $(document).ready(function() {
 
         }
         resourcenames.push(Deployment);
+        $('.modal').on('hidden.bs.modal', function(){
+            $(this).removeData('bs.modal');
+        });
     });
 
     $('#service_add').click(function   (event) {

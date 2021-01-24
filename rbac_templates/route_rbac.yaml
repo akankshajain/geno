@@ -1,8 +1,8 @@
-- apiGroups:
+apiGroups:
   - route.openshift.io
-  resources:
+resources:
   - routes
-  verbs:
+verbs:
   - create
   - delete
   - get

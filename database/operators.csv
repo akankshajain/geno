@@ -1,3 +1,6 @@
 kafka,helm,timestamp,/root/operators/kafka
 kafka1,helm,timestamp,/root/operators/kafka1
 kafka-operator-3,helm,01/14/2021 08:39:57,/root/operators/kafka-operator-3
+nodered-operator-demo-24,from scratch,01/24/2021 01:57:26,/root/operators/nodered-operator-demo-24
+nodered-operator-demo-24,from scratch,01/24/2021 02:00:28,/root/operators/nodered-operator-demo-24
+nodered-operator-demo-24,from scratch,01/24/2021 02:07:48,/root/operators/nodered-operator-demo-24

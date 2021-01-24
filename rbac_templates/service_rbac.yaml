@@ -1,9 +1,9 @@
-- apiGroups:
+apiGroups:
   - ""
-  resources:
+resources:
   - services
   - services/finalizers
-  verbs:
+verbs:
   - create
   - delete
   - get

@@ -8,10 +8,10 @@
         namespace: "{{ ansible_operator_meta.namespace }}"
       spec:
         selector:
-          matchLabels:
+          matchLabels: {}
         replicas: <replicas>
         template:
           metadata:
-            labels:
+            labels: {}
           spec:
             containers: []

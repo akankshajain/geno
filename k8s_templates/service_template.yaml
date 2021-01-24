@@ -7,8 +7,5 @@
         name: <name>
         namespace: "{{ ansible_operator_meta.namespace }}"
       spec:
-        selector:
-        ports:
-          - protocol: TCP
-            port: <source port>
-            targetPort: <target port>
+        selector: {}
+        ports: []

@@ -91,7 +91,7 @@ def deployment(deploymentresource, path):
         labelslist = [x.strip() for x in deploymentresource["label"].split(':')]
         print(labelslist)
         container = {"name": deploymentresource["name"], "image": deploymentresource["image"],
-                     "ports": [{"containerPort": deploymentresource["port"]}]}
+                     "ports": [{"containerPort": int(deploymentresource["port"])}]}
         item["k8s"]["definition"]["metadata"]["name"] = deploymentresource["name"]
         item["k8s"]["definition"]["spec"]["replicas"] = deploymentresource["replicas"]
         item["k8s"]["definition"]["spec"]["selector"]["matchLabels"][labelslist[0]] = labelslist[1]
@@ -108,7 +108,7 @@ def service(serviceresource, path, operatorDirectory):
         document = yaml.safe_load(file)
     for item in document:
         appselector = [x.strip() for x in serviceresource["podselectorlabel"].split(':')]
-        ports={"protocol": "TCP", "port":serviceresource["sourceport"],"targetPort":serviceresource["targetport"]}
+        ports={"protocol": "TCP", "port":int(serviceresource["sourceport"]),"targetPort":int(serviceresource["targetport"])}
         item["k8s"]["definition"]["metadata"]["name"] = serviceresource["name"]
         item["k8s"]["definition"]["spec"]["selector"][appselector[0]] = appselector[1]
         item["k8s"]["definition"]["spec"]["ports"].append(ports)
@@ -129,7 +129,7 @@ def route(routeresource, path, operatorDirectory):
     for item in document:
         item["k8s"]["definition"]["metadata"]["name"] = routeresource["name"]
         item["k8s"]["definition"]["spec"]["to"]["name"] = routeresource["servicename"]
-        item["k8s"]["definition"]["spec"]["port"]["targetPort"] = routeresource["targetport"]
+        item["k8s"]["definition"]["spec"]["port"]["targetPort"] = int(routeresource["targetport"])
 
     with open(path, 'a') as f:
         yaml.dump(document, f)

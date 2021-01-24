@@ -100,7 +100,8 @@ $(document).ready(function() {
 
         });
         resourcenames.push(Deployment);
-        renderSuccessMessage2("Added deployment resource to kind.")
+        var kindVal = $('#full_kind').val();
+        renderSuccessMessage2("Added deployment resource to kind " + kindVal + ".");
     });
 
     $('#service_add').click(function   (event) {
@@ -113,7 +114,8 @@ $(document).ready(function() {
 
         });
         resourcenames.push(Service);
-        renderSuccessMessage2("Added Service resource to kind.")
+        var kindVal = $('#full_kind').val();
+        renderSuccessMessage2("Added Service resource to kind " + kindVal + ".");
     });
 
     $('#route_add').click(function   (event) {
@@ -124,7 +126,8 @@ $(document).ready(function() {
             targetport : parseFloat($('#targetport').val())
         });
         resourcenames.push(Route);
-        renderSuccessMessage2("Added Route resource to kind.")
+        var kindVal = $('#full_kind').val();
+        renderSuccessMessage2("Added Route resource to kind " + kindVal + ".");
     });
 
     $('#Secret_Add').click(function   (event) {

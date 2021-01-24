@@ -72,9 +72,9 @@ def ansibleoperatorfromscratch(groupname, domainname, operatorname, version, kin
             if "Deployment" == resourcetype:
                 deployment(resource, path)
             elif "Service" == resourcetype:
-                service(resource, path)
+                service(resource, path, operatorDirectory)
             elif "Route" == resourcetype:
-                route(resource, path)
+                route(resource, path, operatorDirectory)
 
     ct = datetime.datetime.now()
     date_time = ct.strftime("%m/%d/%Y %H:%M:%S")
@@ -102,7 +102,7 @@ def deployment(deploymentresource, path):
     return 0
 
 
-def service(serviceresource, path):
+def service(serviceresource, path, operatorDirectory):
     with open('./k8s_templates/service_template.yaml') as file:
         document = yaml.safe_load(file)
     for item in document:
@@ -117,7 +117,8 @@ def service(serviceresource, path):
     return 0
 
 
-def route(routeresource, path):
+def route(routeresource, path, operatorDirectory):
+    ##Add the ansible code in roles/
     with open('./k8s_templates/route_template.yaml') as file:
         document = yaml.safe_load(file)
 
@@ -128,5 +129,26 @@ def route(routeresource, path):
 
     with open(path, 'a') as f:
         yaml.dump(document, f)
+        
+    ## Add the rbac permissions in config/rbac/
+    with open(operatorDirectory+'/config/rbac/role.yaml') as fileroles:
+        documentroles = yaml.safe_load(fileroles)
+    
+    found=False
+    ##Check if permission already there 
+    for roles in documentroles["rules"]:
+        for resourcelist in roles["resources"]:
+           if resourcelist == "routes":
+               found=True
+               print("Found routes in config/rbac/roles.yaml")
+               break
+               
+    if found==False:
+        with open('./rbac_templates/route_rbac.yaml') as filetemplate:
+            documenttemplate = yaml.safe_load(filetemplate)
+        documentroles["rules"].append(documenttemplate)
+        with open(path, 'w') as fileroleswrite:
+        yaml.dump(documentroles, fileroleswrite)
+        
     return 0
 

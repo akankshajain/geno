@@ -115,6 +115,9 @@ def service(serviceresource, path, operatorDirectory):
 
     with open(path, 'a') as f:
         yaml.dump(document, f)
+        
+    addrbacpermissions("services")
+    
     return 0
 
 
@@ -130,8 +133,15 @@ def route(routeresource, path, operatorDirectory):
 
     with open(path, 'a') as f:
         yaml.dump(document, f)
-        
+
+    addrbacpermissions("routes")
+      
+    return 0
+
+def addrbacpermissions(resourcetype):
+
     ## Add the rbac permissions in config/rbac/
+    
     with open(operatorDirectory+'/config/rbac/role.yaml') as fileroles:
         documentroles = yaml.safe_load(fileroles)
     
@@ -139,17 +149,15 @@ def route(routeresource, path, operatorDirectory):
     ##Check if permission already there 
     for roles in documentroles["rules"]:
         for resourcelist in roles["resources"]:
-           if resourcelist == "routes":
+           if resourcelist == resourcetype:
                found=True
-               print("Found routes in config/rbac/roles.yaml")
+               print("Found routes in config/rbac/roles.yaml. Not adding it again.")
                break
                
     if found==False:
-        with open('./rbac_templates/route_rbac.yaml') as filetemplate:
+        print("Adding permissions for "+resourcetype)
+        with open('./rbac_templates/'+resourcetype+'_rbac.yaml') as filetemplate:
             documenttemplate = yaml.safe_load(filetemplate)
         documentroles["rules"].append(documenttemplate)
         with open(operatorDirectory+'/config/rbac/role.yaml', 'w') as fileroleswrite:
             yaml.dump(documentroles, fileroleswrite)
-        
-    return 0
-

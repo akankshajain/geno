@@ -37,13 +37,11 @@ def ansibleoperatorfromk8s(groupname, domainname, operatorname, version, kinds, 
         print("output %s" % result)
         
         path = operatorDirectory + "/roles/" + kind['name'].lower() + "/tasks/main.yml"
-        with open(path) as mainfile:
-            maindocument = yaml.safe_load(mainfile)
+        maindocument = []
         for resource in kind['resourcenames']:
             print("Creating code for " + resource)
             #Execute the command to get a clean k8s resource -kubectl-neat get "$resource" -o yaml > temp.yml
-            result = subprocess.run(["kubectl-neat", "get", resource, "-o", "yaml",">","temp.yaml"],
-                                    stdout=subprocess.PIPE)
+            result = subprocess.run(["sh", "createAnsibleCode.sh", resource,namespace],stdout=subprocess.PIPE)
             
             with open('./temp.yaml') as file:
                 document = yaml.safe_load(file)

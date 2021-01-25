@@ -35,12 +35,26 @@ def ansibleoperatorfromk8s(groupname, domainname, operatorname, version, kinds, 
                                  kind['name'].capitalize(), "--generate-role"], cwd=operatorDirectory,
                                 stdout=subprocess.PIPE)
         print("output %s" % result)
-
+        
+        path = operatorDirectory + "/roles/" + kind['name'].lower() + "/tasks/main.yml"
+        with open(path) as mainfile:
+            maindocument = yaml.safe_load(mainfile)
         for resource in kind['resourcenames']:
             print("Creating code for " + resource)
-            result = subprocess.run(["sh", "createAnsibleCode.sh", resource, kind['name'].lower(), operatorDirectory],
+            #Execute the command to get a clean k8s resource -kubectl-neat get "$resource" -o yaml > temp.yml
+            result = subprocess.run(["kubectl-neat", "get", resource, "-o", "yaml",">","temp.yaml"],
                                     stdout=subprocess.PIPE)
-            print("Resource created %s" % result)
+            
+            with open('./temp.yaml') as file:
+                document = yaml.safe_load(file)
+                #Pre-fix the ansible task fields
+                ansibledocument={ "name": "Create "+resource,"k8s":{"definition":document}}
+                #Add to main.yaml
+                maindocument.append(ansibledocument)
+                       
+        with open(path, 'a') as f:
+            yaml.safe_dump(maindocument, f, default_style=None,default_flow_style=False)
+        
 
     ct = datetime.datetime.now()
     date_time = ct.strftime("%m/%d/%Y %H:%M:%S")

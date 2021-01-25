@@ -1,15 +1,20 @@
 # Using flask to make an api
 # import necessary libraries and functions
-from flask import Flask, request, jsonify
-import paramiko
 import os
+import paramiko
+from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 
 # creating a Flask app
 app = Flask(__name__)
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, resources={r"/download": {"origins": "http://localhost:5000"}})
 
-@app.route('/download', methods = ['POST'])
+
+@app.route('/download', methods=['POST'])
+@cross_origin(origin='localhost', headers=['Content-Type', 'application/json'])
 def create_oper():
-    #curl -i -H "Content-Type: application/json" -X POST -d '{"operator":"nodered-operator-demo","path":"/c/dashdbrepos"}' http://localhost:5000/download
+    # curl -i -H "Content-Type: application/json" -X POST -d '{"operator":"nodered-operator-demo","path":"/c/dashdbrepos"}' http://localhost:5000/download
     data = request.get_json()
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -23,7 +28,7 @@ def create_oper():
     os.system('scp root@9.30.199.16:/tmp/' + data['operator'] + '.tar' + " " + data['path'])
     return jsonify({'data': "hello"})
 
+
 # Main invocation
 if __name__ == '__main__':
-    app.run(debug = True, host='localhost', port=5000)
-
+    app.run(debug=True, host='localhost', port=5000)

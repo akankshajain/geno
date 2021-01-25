@@ -48,8 +48,7 @@ function download(objButton){
 		    url :  'http://localhost:5000/download',
 		    data : requestBody,
 		    headers: {
-			    'Content-Type':'application/json',
-			    'Access-Control-Allow-Origin': '*'
+			    'Content-Type':'application/json'
 		    },
 		    dataType : "json",
 		    success : function(data) {

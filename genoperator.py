@@ -46,16 +46,15 @@ def ansibleoperatorfromk8s(groupname, domainname, operatorname, version, kinds, 
             with open('./temp.yaml') as file:
                 document = yaml.safe_load(file)
                 #Pre-fix the ansible task fields
-                       
-            
+
             if "deployment" in resource:
-                #for now do nothing
+                print("")
             elif "service" in resource:
                 del document["spec"]["clusterIP"]
                 addrbacpermissions("services", operatorDirectory)  
                 
             elif "route" in resource:
-                del document["spec"]["
+                del document["spec"][""]
                 addrbacpermissions("routes", operatorDirectory)
                 
             ansibledocument={ "name": "Create "+resource,"k8s":{"definition":document}}

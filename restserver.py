@@ -3,10 +3,12 @@
 import genoperator
 from utils import operators_dict
 from flask import Flask, render_template, url_for, request, redirect, flash, jsonify
+from flask_cors import CORS, cross_origin
 
 # creating a Flask app
 app = Flask(__name__)
-
+app.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(app, resources={r"/download": {"origins": "http://localhost:5000"}})
 # on the terminal type: curl http://127.0.0.1:5000/
 # returns hello world when we use GET.
 # returns the data that we send when we use POST.
@@ -22,6 +24,7 @@ app = Flask(__name__)
 
 # List already created operators
 @app.route('/list_opers', methods = ['GET'])
+@cross_origin(origin='localhost',headers=['Content-Type','application/json'])
 def list_opers():
     if(request.method == 'GET'):
         return operators_dict()

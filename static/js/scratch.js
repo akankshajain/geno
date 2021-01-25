@@ -99,6 +99,7 @@ $(document).ready(function() {
             replicas: $('#replica').val()
 
         });
+        $('.deployment').val("");
         resourcenames.push(Deployment);
         var kindVal = $('#full_kind').val();
         renderSuccessMessage2("Added deployment resource to kind " + kindVal + ".");

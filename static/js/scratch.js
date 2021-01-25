@@ -40,8 +40,10 @@ $(document).ready(function() {
 
     $('#full_createkind').click(function   (event) {
         var kindVal = $('#full_kind').val();
-        var kind = "{\"name\":\"" +  kindVal + "\"," +
-            "\"resourcenames\":[" + resourcenames + "]}"
+        var kind = {
+            name: kindVal,
+            "resourcenames": resourcenames
+        }
         kinds.push(kind)
         resourcenames = []
         $('#full_bar').append('&nbsp;&nbsp;<button class="btn-styled" type="button">' + kindVal + '</button>');
@@ -57,7 +59,7 @@ $(document).ready(function() {
                           "\",\"domainname\" : \"" + domainName +
                           "\",\"operatorname\" : \"" + operatorName +
                           "\",\"version\" : \"" + version +
-                          "\" ,\"kinds\" : [" +  kinds + "]}";
+                          "\" ,\"kinds\" :" +  JSON.stringify(kinds) + "}";
         console.log(requestBody);
     	$.ajax({
     		type : 'POST',
@@ -90,41 +92,41 @@ $(document).ready(function() {
 
     // process add resource button and create
     $('#dep_add').click(function   (event) {
-        Deployment = JSON.stringify({
+        Deployment = {
             type: "Deployment",
             name : $('#dname').val(),
-            port : parseFloat($('#port').val()),
+            port : $('#port').val(),
             image : $('#image').val(),
             label : $('#label').val(),
             replicas: $('#replica').val()
 
-        });
+        }
         resourcenames.push(Deployment);
         var kindVal = $('#full_kind').val();
         renderSuccessMessage2("Added deployment resource to kind " + kindVal + ".");
     });
 
     $('#service_add').click(function   (event) {
-        Service = JSON.stringify({
+        Service = {
             type: "Service",
             name : $('#sname').val(),
-            sourceport : parseFloat($('#sport').val()),
-            targetport : parseFloat($('#tport').val()),
+            sourceport : $('#sport').val(),
+            targetport : $('#tport').val(),
             podselectorlabel : $('#label').val()
 
-        });
+        }
         resourcenames.push(Service);
         var kindVal = $('#full_kind').val();
         renderSuccessMessage2("Added Service resource to kind " + kindVal + ".");
     });
 
     $('#route_add').click(function   (event) {
-        Route = JSON.stringify({
+        Route = {
             type: "Route",
             name : $('#rname').val(),
             servicename : $('#servicename').val(),
-            targetport : parseFloat($('#targetport').val())
-        });
+            targetport : $('#targetport').val()
+        }
         resourcenames.push(Route);
         var kindVal = $('#full_kind').val();
         renderSuccessMessage2("Added Route resource to kind " + kindVal + ".");

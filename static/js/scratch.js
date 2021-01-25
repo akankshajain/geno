@@ -96,7 +96,7 @@ $(document).ready(function() {
             port : parseFloat($('#port').val()),
             image : $('#image').val(),
             label : $('#label').val(),
-            replicas: $('#replica').val()
+            replicas: parseFloat($('#replica').val())
 
         });
         $('.deployment').val("");

@@ -111,9 +111,10 @@ $(document).ready(function() {
             name : $('#sname').val(),
             sourceport : parseFloat($('#sport').val()),
             targetport : parseFloat($('#tport').val()),
-            podselectorlabel : $('#label').val()
+            podselectorlabel : $('#slabel').val()
 
         });
+        $('.service').val("");
         resourcenames.push(Service);
         var kindVal = $('#full_kind').val();
         renderSuccessMessage2("Added Service resource to kind " + kindVal + ".");
@@ -126,6 +127,7 @@ $(document).ready(function() {
             servicename : $('#servicename').val(),
             targetport : parseFloat($('#targetport').val())
         });
+        $('.route').val("");
         resourcenames.push(Route);
         var kindVal = $('#full_kind').val();
         renderSuccessMessage2("Added Route resource to kind " + kindVal + ".");
